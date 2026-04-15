@@ -1,26 +1,52 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  direction: rtl !important; /* اون !important کار رو تموم میکنه */
+  text-align: right !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* برای اینکه فلکس‌باکس‌ها هم برعکس بشن */
+div, section, main, header, footer {
+  direction: rtl;
+}
+
+/* اسکرول بار زیبا (اختیاری) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 4px;
+}
+
+@layer utilities {
+  .animate-infinite-scroll {
+    /* چون لیست خیلی بلند شده (۲۴ آیتم)، زمان رو زیاد میکنیم که سرگیجه نگیریم */
+    animation: infinite-scroll 60s linear infinite; 
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  
+  /* در موبایل چون عرض کمه، همون ۶۰ ثانیه خوبه یا حتی کمتر هم میشه */
+  @media (max-width: 768px) {
+    .animate-infinite-scroll {
+      animation-duration: 15;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes infinite-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
